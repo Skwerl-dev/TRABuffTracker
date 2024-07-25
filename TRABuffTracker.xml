@@ -1,0 +1,173 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+                        https://raw.githubusercontent.com/Gethe/wow-ui-source/live/Interface/FrameXML/UI_shared.xsd">
+
+<!-- Frame to track the Timerunner's Advantage buff -->
+    <Frame name="TRABuffTracker" parent="UIParent" toplevel="true" enableMouse="true" movable="true" inherits="BackdropTemplate">
+        <Size x="140" y="110"/>
+        <Anchors>
+            <Anchor point="TOPLEFT"/>
+        </Anchors>
+        <Layers>
+            <Layer level="OVERLAY">
+                <!-- The Left hand side of the display - the text strings (const) -->
+                <FontString name="$parentIntStr" text="Int:" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="5" y="-5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentStamStr" text="Stam:" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentIntStr" relativePoint="LEFT" x="0" y="-5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentCritStr" text="Crit:" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentStamStr" relativePoint="LEFT" x="0" y="-5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentHasteStr" text="Haste:" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentCritStr" relativePoint="LEFT" x="0" y="-5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentLeechStr" text="Leech:" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentHasteStr" relativePoint="LEFT" x="0" y="-5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentMasteryStr" text="Mast:" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentLeechStr" relativePoint="LEFT" x="0" y="-5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentSpeedStr" text="Speed:" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentMasteryStr" relativePoint="LEFT" x="0" y="-5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentVersStr" text="Vers:" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentSpeedStr" relativePoint="LEFT" x="0" y="-5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentExpStr" text="Exp:" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentVersStr" relativePoint="LEFT" x="0" y="-5"/>
+                    </Anchors>
+                </FontString>
+                <!-- The Right hand side of the display - the stat strings (updated variables when threads are collected) -->
+                <FontString name="$parentInt" text="N/A" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" x="-3" y="-5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentStam" text="N/A" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativeTo="$parentInt" relativePoint="RIGHT" x="0" y="-5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentCrit" text="N/A" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativeTo="$parentStam" relativePoint="RIGHT" x="0" y="-5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentHaste" text="N/A" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativeTo="$parentCrit" relativePoint="RIGHT" x="0" y="-5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentLeech" text="N/A" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativeTo="$parentHaste" relativePoint="RIGHT" x="0" y="-5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentMastery" text="N/A" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativeTo="$parentLeech" relativePoint="RIGHT" x="0" y="-5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentSpeed" text="N/A" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativeTo="$parentMastery" relativePoint="RIGHT" x="0" y="-5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentVers" text="N/A" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativeTo="$parentSpeed" relativePoint="RIGHT" x="0" y="-5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentExp" text="N/A" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativeTo="$parentVers" relativePoint="RIGHT" x="0" y="-5"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Scripts>
+        <OnLoad>
+            self:RegisterForDrag("LeftButton");
+            self:SetScript("OnDragStart", self.StartMoving);
+            self:SetScript("OnDragStop", self.StopMovingOrSizing);
+        </OnLoad>
+    </Scripts>
+    </Frame>
+<!-- Frame with the modifications this play session-->
+    <Frame name="TRAGains" parent="TRABuffTracker" inherits="BackdropTemplate"> 
+        <Size x="80" y="110"/>
+        <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="TRABuffTracker" relativePoint="TOPRIGHT"/>
+        </Anchors>
+        <Layers>
+            <Layer level="OVERLAY">
+                <!-- The Right hand side of the display - the stat strings (updated variables when the cloak upgrades) -->
+                <FontString name="$parentInt" text="(0)" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" x="-3" y="-5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentStam" text="(0)" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativeTo="$parentInt" relativePoint="RIGHT" x="0" y="-5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentCrit" text="(0)" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativeTo="$parentStam" relativePoint="RIGHT" x="0" y="-5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentHaste" text="(0)" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativeTo="$parentCrit" relativePoint="RIGHT" x="0" y="-5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentLeech" text="(0)" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativeTo="$parentHaste" relativePoint="RIGHT" x="0" y="-5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentMastery" text="(0)" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativeTo="$parentLeech" relativePoint="RIGHT" x="0" y="-5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentSpeed" text="(0)" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativeTo="$parentMastery" relativePoint="RIGHT" x="0" y="-5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentVers" text="(0)" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativeTo="$parentSpeed" relativePoint="RIGHT" x="0" y="-5"/>
+                    </Anchors>
+                </FontString>
+                <FontString name="$parentExp" text="(0)" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativeTo="$parentVers" relativePoint="RIGHT" x="0" y="-5"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+    </Frame>
+</Ui>

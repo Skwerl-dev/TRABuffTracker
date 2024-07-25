@@ -1,0 +1,10 @@
+## Interface: 110000
+## Version: 1.0.0
+## Title: TRA Buff Tracker
+## Notes: Shows the Timerunner's Advantage buff stats in a separate frame. Also shows the stats gained since login / reset. 
+## Author: Skwerl
+## IconTexture: Interface\AddOns\TRABuffTracker\Images\TRABuffTrackerIconSmall.tga
+## SavedVariables: TRABuffTrackerDB
+
+TRABuffTracker.xml
+TRABuffTracker.lua
